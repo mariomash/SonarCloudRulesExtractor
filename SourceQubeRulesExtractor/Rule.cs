@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace SourceQubeRulesExtractor
+namespace SonarCloudRulesExtractor
 {
     internal class Rule
     {

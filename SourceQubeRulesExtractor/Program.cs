@@ -1,14 +1,10 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
+using ServiceStack.Text;
 
-namespace SourceQubeRulesExtractor
+namespace SonarCloudRulesExtractor
 {
     class Program
     {
@@ -30,6 +26,8 @@ namespace SourceQubeRulesExtractor
                 rules.AddRange(result.Rules);
             }
 
+            File.AppendAllText("rules.csv", CsvSerializer.SerializeToString<List<Rule>>(rules));
+
         }
 
         private static RulesSearchResult GetSearchResultContents(string url)
@@ -37,8 +35,6 @@ namespace SourceQubeRulesExtractor
             using (var httpClient = new HttpClient())
             {
                 var json = httpClient.GetStringAsync(url).Result;
-
-                //return JObject.Parse(json);
 
                 return JsonConvert.DeserializeObject<RulesSearchResult>(json);
             }
